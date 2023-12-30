@@ -1,19 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import WordRow from './wordRow';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
 
   return (
-    <>
+
       <div className="mx-auto w-96">
-        <h1 className='text-4xl text-center'>Wordle</h1>
+        <header className='border-b border-gray-500 pb-2 mb-2'>
+          <h1 className="text-4xl text-center"> Wordle </h1>
+        </header>
+
+        <main>
+          <WordRow letters="he" />
+          <WordRow letters="hell"/>
+          <WordRow letters="hello"/>
+       
+
+        </main>
       </div>
-     
-    </>
   )
 }
 
-export default App
+
