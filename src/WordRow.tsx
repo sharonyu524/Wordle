@@ -1,3 +1,5 @@
+import { LetterState, computeGuess } from "./word-utils";
+
 const LETTER_LENGTH = 5;
 interface WordRowProps{
     letters: string;
@@ -7,10 +9,11 @@ interface WordRowProps{
 export default function WordRow({letters: lettersProp = ''}:WordRowProps){
     const lettersRemaining = LETTER_LENGTH -lettersProp.length;
     const letters = lettersProp.split('').concat(Array(lettersRemaining).fill(''));
+    const guessState = computeGuess(lettersProp);
     return(
         <div className="grid grid-cols-5 gap-4">
-            {letters.map((char) => (
-                <Characterbox key={char} value = {char} />
+            {letters.map((char,index) => (
+                <Characterbox key={index} value = {char} state={guessState[index]}/>
             ))}
         </div>
     );
@@ -18,12 +21,23 @@ export default function WordRow({letters: lettersProp = ''}:WordRowProps){
 
 interface CharacterboxProps{
     value: string;
+    state?: LetterState;
 }
 
-function Characterbox({value}:CharacterboxProps){
+function Characterbox({value,state}:CharacterboxProps){
+    const stateStyles = state == null?'': characterStateStyles[state];
+    // console.log(state);
     return(
-        <div className="inline-block border-2 border-gray-500 p-4 uppercase font-bold text-2xl text-center">
+        <div 
+        className= {`inline-block border-2 border-gray-500 p-4 uppercase font-bold text-2xl text-center ${stateStyles}`}
+        >
             {value}
         </div>
     );
+}
+
+const characterStateStyles={
+    [LetterState.Miss]: "bg-gray-500",
+    [LetterState.Present]: "bg-yellow-500",
+    [LetterState.Match]: "bg-green-500",
 }
