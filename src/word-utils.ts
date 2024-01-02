@@ -17,10 +17,21 @@ export function computeGuess (
 ): LetterState[]{
     const result: LetterState[] = [];
 
+    if (guess.length != answerString.length){
+        return result;
+    }
+
     const guessArray = guess.split('');
     const answerArray = answerString.split('');
+    const answerLetterCount: Record<string, number>= {}; 
 
-    guessArray.forEach((letter,index) => {
+    guessArray.forEach((letter, index) =>{
+        const currentAnswerLetter = answerArray[index];
+        // build a dictionary for answerLetterCount
+        answerLetterCount[currentAnswerLetter] = answerLetterCount[currentAnswerLetter]
+        ? answerLetterCount[currentAnswerLetter] + 1
+        : 1; 
+    
         if (letter === answerArray[index]){
             result.push(LetterState.Match);
         } else if(answerArray.includes(letter)){
@@ -29,6 +40,30 @@ export function computeGuess (
             result.push(LetterState.Miss); 
         }
     }); 
+
+    result.forEach((curResult, resultIndex) => {
+        if (curResult != LetterState.Present){ //present is where errors happen 
+            return;
+        }
+
+        const guessLetter = guessArray[resultIndex];
+
+        answerArray.forEach((currentAnswerLetter, answerIndex) => {
+            if(currentAnswerLetter !== guessLetter){
+                return; 
+            }
+            if (result[answerIndex] === LetterState.Match){
+                result[resultIndex] = LetterState.Miss;
+            }
+
+            if(answerLetterCount[guessLetter] <= 0){
+                result[resultIndex] = LetterState.Miss;
+            }
+        });
+        answerLetterCount[guessLetter] --; 
+
+       
+    })
     return result; 
 
 }
