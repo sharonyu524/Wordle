@@ -1,5 +1,5 @@
 import wordBank from './word-bank.json';
-const word = getRandomWord();
+// const word = getRandomWord();
 export function getRandomWord(){
     const randomIndex = Math.floor(Math.random()*wordBank.length);
     return wordBank[randomIndex];
@@ -10,7 +10,7 @@ export enum LetterState{
     Present = "Present",
     Match = "Match"
 }
-console.log(word); 
+// console.log(word); 
 export function computeGuess (
     guess: string,
     answerString: string 

@@ -6,6 +6,7 @@ interface StoreState{
     answer: string;
     guesses: string[];
     addGuess:(guess:string) => void;
+    newGame: () => void;
 }
 // export const useStore = create<StoreState>(
 //   persist(
@@ -34,7 +35,13 @@ export const useStore = create <StoreState>()(
            set(state => ({
             guesses:[...state.guesses,guess],
            }));
-        }
+        },
+        newGame: () => {
+          set({
+            answer: getRandomWord(),
+            guesses:[],
+          });
+        },
       }),
       {
         name: 'wordle', // name of the item in the storage (must be unique)
@@ -43,4 +50,4 @@ export const useStore = create <StoreState>()(
     ),
   )
 
-// useStore.persist.clearStorage();
+useStore.persist.clearStorage();
