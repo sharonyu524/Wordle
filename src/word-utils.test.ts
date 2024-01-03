@@ -33,7 +33,7 @@ describe('computeGuess', () => {
           LetterState.Match,
         ]);
       });
-      // TODO: need to fix the algorithm when the same letter appears multiple times 
+       
       it('works with all matched,', () => {
       
         expect(computeGuess("allol", "smelt")).toEqual([

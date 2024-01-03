@@ -13,7 +13,7 @@ export enum LetterState{
 console.log(word); 
 export function computeGuess (
     guess: string,
-    answerString: string = word 
+    answerString: string 
 ): LetterState[]{
     const result: LetterState[] = [];
 

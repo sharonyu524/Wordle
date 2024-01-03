@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import {useStore} from './store';
-import WordRow from './WordRow';
+import WordRow, { LETTER_LENGTH } from './WordRow';
 
 const GUESS_LENGTH = 6;
 export default function App() {
@@ -8,18 +8,31 @@ export default function App() {
 
   const [guess,setGuess] = useState('');
 
-  const rows = [...state.guesses];
+  // react on change handler 
+  const onChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+    const newGuess = e.target.value;
+    if (newGuess.length === LETTER_LENGTH){
+      state.addGuess(newGuess);
+      setGuess('');
+      return;
+    }
+    setGuess(newGuess);
+  };
+
+  let rows = [...state.guesses];
 
   if (rows.length > 0){
     rows.push(guess);
   }
   const numberOfGuessesRemaining = GUESS_LENGTH - rows.length; 
+  rows = rows.concat(Array(numberOfGuessesRemaining).fill(''));
   
 
 
   return (
 
       <div className="mx-auto w-96">
+        
         <header className='border-b border-gray-500 pb-2 mb-2'>
           <h1 className="text-4xl text-center"> Wordle </h1>
           <div>
@@ -28,12 +41,10 @@ export default function App() {
         </header>
        
         <main className='grid grid-rows-6 gap-4'>
-          <WordRow letters="he" />
-          <WordRow letters="hell"/>
-          <WordRow letters="hello"/>
-          <WordRow letters="solar"/>
-          <WordRow letters="penny"/>
-          <WordRow letters="stare"/>
+        {rows.map((word,index) => (
+          <WordRow key ={index} letters={word}/>
+        ))}
+          
        
 
         </main>
