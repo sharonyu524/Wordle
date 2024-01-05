@@ -19,16 +19,16 @@ export default function App() {
     setGuess(newGuess);
   };
 
-  let rows = [...state.guesses];
+  let rows = [...state.rows];
 
   if (rows.length > 0){
-    rows.push(guess);
+    rows.push({guess});
   }
-  const numberOfGuessesRemaining = GUESS_LENGTH - rows.length; 
+  const numberOfGuessesRemaining = GUESS_LENGTH - state.rows.length; 
 
   rows = rows.concat(Array(numberOfGuessesRemaining).fill(''));
   
-  const isGameOver = state.guesses.length === GUESS_LENGTH;
+  const isGameOver = state.rows.length === GUESS_LENGTH;
 
   return (
 
@@ -45,11 +45,11 @@ export default function App() {
         </header>
        
         <main className='grid grid-rows-6 gap-4'>
-        {rows.map((word,index) => (
-          <WordRow key ={index} letters={word}/>
+        {rows.map(({guess,result},index) => (
+          <WordRow key ={index} letters={guess} result = {result}/>
         ))}
         </main>
-        
+
         {isGameOver && (
           <div role = "modal" className='absolute bg-white rounded border border-gray-500 text-center left-0 right-0 top-1/4 p-6w-3/4 mx-auto rounded border-gray-500 text-center'>
             Game Over! 
@@ -57,7 +57,8 @@ export default function App() {
             onClick ={()=> {
               state.newGame();
               setGuess('');
-            }}>New Game
+            }}>
+              New Game
             </button>
           </div>
         )}
