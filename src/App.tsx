@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import {useStore, GUESS_LENGTH} from './store';
 import WordRow, { LETTER_LENGTH } from './WordRow';
 import { isValidWord } from './word-utils';
+import Keyboard from './Keyboard';
 
 
 export default function App() {
@@ -53,6 +54,8 @@ export default function App() {
           <h1 className="text-4xl text-center"> Wordle </h1>
 
         </header>
+
+        <Keyboard/>
        
         <main className='grid grid-rows-6 gap-4'>
         {rows.map(({guess,result},index) => (
@@ -66,6 +69,7 @@ export default function App() {
         {isGameOver && (
           <div role = "modal" className='absolute bg-white rounded border border-gray-500 text-center left-0 right-0 top-1/4 p-6w-3/4 mx-auto rounded border-gray-500 text-center'>
             Game Over! 
+            <WordRow letters={state.answer}/>
             <button className="block border rounded border-green-500 bg-green-500 p-2 mt-4 mx-auto"
             onClick ={()=> {
               state.newGame();
