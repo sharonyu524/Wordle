@@ -10,16 +10,16 @@ describe('Simple working test', () => {
   });
 
   it('shows empty state', () => {
-    useStore.setState({ guesses: ['hello'] });
+    useStore.getState().newGame([]);
     render(<App />);
     
     expect(screen.queryByText('Game Over!')).toBeNull();
     
-    expect(document.querySelectorAll('main div')).toHaveLength(7);
+    expect(document.querySelectorAll('main div')).toHaveLength(6);
     // expect(document.querySelectorAll('main')[0]?.textContent).toEqual('hello');
   });
   it('shows guesses', () => {
-    useStore.setState({ guesses: ['hello'] });
+    useStore.getState().newGame(['hello']);
     render(<App />);
     expect(document.querySelectorAll('main')[0]?.textContent).toEqual('hello');
   });
@@ -28,9 +28,34 @@ describe('Simple working test', () => {
   
   // test the ending state of the game
   it('shows game over', () => {
-    useStore.setState({ guesses: ['hello', 'hello', 'hello', 'hello', 'hello', 'hello'] });
+    useStore.getState().newGame(Array(6).fill('hello'));
     render(<App />);
     expect(screen.getByText('Game Over!')).toBeInTheDocument();
     userEvent.click(screen.getByText('New Game'));
+  });
+
+  // test the ending state of the game
+  test('shows lost game state', () => {
+    useStore.getState().newGame(Array(6).fill('hello'));
+    render(<App />);
+    
+    expect(screen.getByText('Game Over!')).toBeInTheDocument();
+  });
+
+  // test the ending state of the game
+  test('show won game state', () => {
+    const initialState = Array(2).fill('hello');
+    useStore.getState().newGame(initialState);
+    const answer = useStore.getState().answer;
+    useStore.getState().addGuess(answer);
+
+    render(<App />);
+
+    // shows all guesses in the DOM
+    expect(document.querySelector('main')?.textContent).toEqual(
+      initialState.join('') + answer
+    );
+  
+    expect(screen.getByText('Game Over!')).toBeInTheDocument();
   });
 });
