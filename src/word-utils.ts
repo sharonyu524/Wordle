@@ -67,5 +67,9 @@ export function computeGuess (
     return result; 
 
 }
+
+export function isValidWord(word: string){
+    return wordBank.includes(word);
+}
     
     

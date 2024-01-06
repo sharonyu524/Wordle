@@ -5,16 +5,17 @@ export const LETTER_LENGTH = 5;
 interface WordRowProps{
     letters: string;
     result?: LetterState[];
+    className?: string;
 
 
 }
-export default function WordRow({letters: lettersProp = '', result=[]}:WordRowProps){
+export default function WordRow({letters: lettersProp = '', result=[], className = ''}:WordRowProps){
     // const answer = useStore(state => state.answer);
     const lettersRemaining = LETTER_LENGTH -lettersProp.length;
     const letters = lettersProp.split('').concat(Array(lettersRemaining).fill(''));
    // const guessState = computeGuess(lettersProp,answer);
     return(
-        <div className="grid grid-cols-5 gap-4">
+        <div className={"grid grid-cols-5 gap-4 ${className}" }>
             {letters.map((char,index) => (
                 <CharacterBox key={index} value = {char} state={result[index]}/>
             ))}

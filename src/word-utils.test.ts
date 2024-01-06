@@ -1,5 +1,5 @@
 import { describe, expect, it} from 'vitest';
-import {LetterState, computeGuess, getRandomWord} from './word-utils';
+import {LetterState, computeGuess, getRandomWord, isValidWord} from './word-utils';
 import{render, screen} from './test/test-utils'
 
 describe('word-utils', () => {
@@ -44,6 +44,21 @@ describe('computeGuess', () => {
           LetterState.Miss,
         ]);
       });
+
+
+  describe('isValidWord', () => {
+    it('works with a valid word', () => {
+      
+      expect(isValidWord('boost')).toBe(true);
+      expect(getRandomWord().length).toEqual(5);
+    });
+
+    it ('words with an invalid word', () => {
+      expect(isValidWord('abcde')).toBe(false);
+    });
+
+  });
+
   
   });
   
