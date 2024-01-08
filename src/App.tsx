@@ -3,12 +3,13 @@ import {useStore, GUESS_LENGTH} from './store';
 import WordRow, { LETTER_LENGTH } from './WordRow';
 import { isValidWord } from './word-utils';
 import Keyboard from './Keyboard';
+import { a } from 'vitest/dist/suite-dF4WyktM.js';
 
 
 export default function App() {
   const state = useStore();
 
-  const [guess,setGuess] = useGuess();
+  const [guess,setGuess, addGuessLetter] = useGuess();
 
   const [showsInvalidGuess,setInvalidGuess] = useState(false);
   const addGuess = useStore(s => s.addGuess);
@@ -55,7 +56,7 @@ export default function App() {
 
         </header>
 
-        <Keyboard/>
+        
        
         <main className='grid grid-rows-6 gap-4'>
         {rows.map(({guess,result},index) => (
@@ -65,6 +66,10 @@ export default function App() {
           }/>
         ))}
         </main>
+
+        <Keyboard onClick = {letter => {
+          addGuessLetter(letter);
+        }}/>
 
         {isGameOver && (
           <div role = "modal" className='absolute bg-white rounded border border-gray-500 text-center left-0 right-0 top-1/4 p-6w-3/4 mx-auto rounded border-gray-500 text-center'>
@@ -83,14 +88,10 @@ export default function App() {
   );
 }
 
-function useGuess(): [string, React.Dispatch<React.SetStateAction<string>>]{
+function useGuess(): [string, React.Dispatch<React.SetStateAction<string>>, (letter: string) => void]{
   
   const [guess,setGuess] = useState('');
-
-
-  const onKeyDown = (e:KeyboardEvent) => {
-    let letter = e.key;
-    
+  const addGuessLetter = (letter: string) => {
     setGuess((currentGuess) => {
       const newGuess = letter.length === 1 ? currentGuess + letter : currentGuess;
       // const addGuess = useStore(s => s.addGuess);
@@ -112,7 +113,17 @@ function useGuess(): [string, React.Dispatch<React.SetStateAction<string>>]{
       }
       return newGuess;
     });
-  };  
+  };
+  
+
+
+  const onKeyDown = (e:KeyboardEvent) => {
+    let letter = e.key;
+    
+      addGuessLetter(letter);
+    };
+  
+ 
   useEffect(()=>{
     document.addEventListener('keydown',onKeyDown);
     return() =>{
@@ -122,7 +133,7 @@ function useGuess(): [string, React.Dispatch<React.SetStateAction<string>>]{
   []);
 
 
-  return [guess,setGuess]
+  return [guess,setGuess,addGuessLetter]
 }
  // useprevious hook 
 function usePrevious<T>(value: T): T {
