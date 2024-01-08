@@ -3,7 +3,7 @@ import {useStore, GUESS_LENGTH} from './store';
 import WordRow, { LETTER_LENGTH } from './WordRow';
 import { isValidWord } from './word-utils';
 import Keyboard from './Keyboard';
-import { a } from 'vitest/dist/suite-dF4WyktM.js';
+
 
 
 export default function App() {
@@ -38,10 +38,10 @@ export default function App() {
   let rows = [...state.rows];
 
   let currentRow = 0;
-  if (rows.length > 0){
+  if (rows.length < GUESS_LENGTH){
     currentRow= rows.push({guess}) - 1;
   }
-  const numberOfGuessesRemaining = GUESS_LENGTH - state.rows.length; 
+  const numberOfGuessesRemaining = GUESS_LENGTH - rows.length; 
 
   rows = rows.concat(Array(numberOfGuessesRemaining).fill(''));
   
@@ -58,9 +58,9 @@ export default function App() {
 
         
        
-        <main className='grid grid-rows-6 gap-4'>
-        {rows.map(({guess,result},index) => (
-          <WordRow key ={index} letters={guess} result = {result}
+        <main className='grid grid-rows-6 gap-4 mb-4'>
+        {rows.map((word,index) => (
+          <WordRow key ={index} word={word.guess} result = {word.result}
           className = {
             showsInvalidGuess && currentRow === index? 'animate-bounce' : ''
           }/>
@@ -74,7 +74,7 @@ export default function App() {
         {isGameOver && (
           <div role = "modal" className='absolute bg-white rounded border border-gray-500 text-center left-0 right-0 top-1/4 p-6w-3/4 mx-auto rounded border-gray-500 text-center'>
             Game Over! 
-            <WordRow letters={state.answer}/>
+            <WordRow word={state.answer}/>
             <button className="block border rounded border-green-500 bg-green-500 p-2 mt-4 mx-auto"
             onClick ={()=> {
               state.newGame();
@@ -108,8 +108,8 @@ function useGuess(): [string, React.Dispatch<React.SetStateAction<string>>, (let
       }
 
       
-      if(currentGuess.length === LETTER_LENGTH){
-        return currentGuess;
+      if(newGuess.length === LETTER_LENGTH){
+        return newGuess;
       }
       return newGuess;
     });
