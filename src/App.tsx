@@ -4,7 +4,7 @@ import WordRow, { LETTER_LENGTH } from './WordRow';
 import { isValidWord } from './word-utils';
 import Keyboard from './Keyboard';
 
-
+// the main file in react where the logic is implemented 
 
 export default function App() {
   const state = useStore();
@@ -51,7 +51,8 @@ export default function App() {
 
       <div className="mx-auto w-96 relative">
         
-        <header className='border-b border-gray-500 pb-2 mb-2'>
+        {/* Header deals with the title of the page */}
+        <header className='border-b border-gray-500 pb-2 mb-2'> 
           <h1 className="text-4xl text-center"> Wordle </h1>
 
         </header>

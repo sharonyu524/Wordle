@@ -12,9 +12,11 @@ interface WordRowProps{
 export default function WordRow({word='', result=[], className = '',}:WordRowProps){
     // const answer = useStore(state => state.answer);
     const lettersRemaining = WORD_LENGTH -word.length;
+    // split the word into an array of letters and fill in the remaining letters with empty strings 
     const letters = word.split('').concat(Array(lettersRemaining).fill(''));
    // const guessState = computeGuess(lettersProp,answer);
     return(
+        // using grid so that the boxes are aligned horizontally and vertically 
         <div className={"grid grid-cols-5 gap-4 ${className}" }>
             {letters.map((char,index) => (
                 <CharacterBox key={index} value = {char} state={result[index]}/>
