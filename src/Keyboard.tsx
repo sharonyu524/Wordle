@@ -1,17 +1,19 @@
 import { useStore } from "./store";
 import { LetterState } from "./word-utils";
 
-export default function Keyboard({onClick: onClickProp}:{onClick: (letter: string) => void}) {
+export default function Keyboard({onClick: onClickProps}:{onClick: (letter: string) => void}) {
     const keyboardLetterState =  useStore(s => s.keyboardLetterState);
     console.log(keyboardLetterState);
-    const onClick =  (e: React.MouseEvent<HTMLButtonElement>) => {
-        
-        const letter = e.currentTarget.textContent;
-       
-        
-        onClickProp(letter!);
-        
-    }
+    const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const { textContent, innerHTML } = e.currentTarget;
+    
+        let returnProps = textContent!;
+        if (textContent !== innerHTML) {
+          returnProps = 'Backspace';
+        }
+    
+        onClickProps(returnProps);
+      };
     
     return <div className="flec flex-col"> 
         {KeyboardKeys.map ((keyBoardRow, rowIndex)  => {
@@ -34,7 +36,7 @@ export default function Keyboard({onClick: onClickProp}:{onClick: (letter: strin
                     }
 
                     
-                    return <button key = {index} className={styles}>{key}</button>
+                    return <button onClick = {onClick} key = {index} className={styles}>{key}</button>
                 })}
             </div>);
        

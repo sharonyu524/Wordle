@@ -31,15 +31,18 @@ export const useStore = create <StoreState>()(
           const resultLetter = guess[index];
 
           const currentLetterState = keyboardLetterState[resultLetter];
-
+          
+          
           switch (currentLetterState) {
             
             case LetterState.Match:
               break;
             case LetterState.Present:
+              // eslint-disable-next-line no-fallthrough
               if (letterState === LetterState.Miss) {
                 break;
               }
+              
             default:
               keyboardLetterState[resultLetter] = letterState;
               break;

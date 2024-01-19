@@ -1,4 +1,4 @@
-import { useStore,WORD_LENGTH } from "./store";
+import {WORD_LENGTH } from "./store";
 import { LetterState} from "./word-utils";
 
 export const LETTER_LENGTH = 5;
@@ -9,7 +9,7 @@ interface WordRowProps{
 
 
 }
-export default function WordRow({word='', result=[], className = '',}:WordRowProps){
+export default function WordRow({word='', result=[],}:WordRowProps){
     // const answer = useStore(state => state.answer);
     const lettersRemaining = WORD_LENGTH -word.length;
     // split the word into an array of letters and fill in the remaining letters with empty strings 
