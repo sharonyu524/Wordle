@@ -1,7 +1,7 @@
 {
   "homepage": "http://sharonyu524.github.io/Wordle",
   "name": "my-vue-app",
-  "private": true,
+  "private": false,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
