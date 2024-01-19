@@ -24,7 +24,7 @@ export default function Keyboard({onClick: onClickProps}:{onClick: (letter: stri
                     
 
                     if (key === ''){
-                        styles += 'pointer-events-none';
+                        styles += ' pointer-events-none';
                     } else {
                         styles += ' px-1';
                       }
