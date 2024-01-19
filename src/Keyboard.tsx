@@ -13,7 +13,7 @@ export default function Keyboard({onClick: onClickProps}:{onClick: (letter: stri
 
     }
     
-    return <div className="flec flex-col"> 
+    return <div className= {`flex flex-col`}> 
         {KeyboardKeys.map ((keyBoardRow, rowIndex)  => {
             return (
                 <div key = {rowIndex} className="my-2 flex justify-center space-x-1">
@@ -25,16 +25,18 @@ export default function Keyboard({onClick: onClickProps}:{onClick: (letter: stri
 
                     if (key === ''){
                         styles += 'pointer-events-none';
-                    } 
+                    } else {
+                        styles += ' px-1';
+                      }
 
                     if (letterState){
-                        styles += `${letterState}`;
+                        styles += ' text-white px-1 ' + letterState;
                     } else if (key !== ''){
                         styles += ' bg-gray-400';
                     }
 
                     
-                    return <button onClick = {onClick} key = {index} className={styles}>{key}</button>
+                    return (<button onClick = {onClick} key = {key + index} className={styles}>{key}</button>);
                 })}
             </div>);
        
