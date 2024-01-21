@@ -25,7 +25,7 @@ export default function App() {
       id = setTimeout(()=>setInvalidGuess(false),1000);
       timeOut = setTimeout(()=> setIsMessageBoxVisible (false),1000);
     }
-    return () => clearTimeout(id);
+    return () => {clearTimeout(id), clearTimeout(timeOut)};
   }, [showsInvalidGuess]);
   useEffect(()=>{
     
