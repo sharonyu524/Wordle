@@ -14,15 +14,21 @@ export default function App() {
   const [showsInvalidGuess,setInvalidGuess] = useState(false);
   const addGuess = useStore(s => s.addGuess);
   const previousGuess = usePrevious(guess);
+  const [invalidGuessMessage, setInvalidGuessMessage] = useState('');
+  const [isMessageBoxVisible, setIsMessageBoxVisible] = useState(false);
+
 
   useEffect(()=>{
     let id: any;
+    let timeOut: any;
     if(showsInvalidGuess){
-      id = setTimeout(()=>setInvalidGuess(false),2000);
+      id = setTimeout(()=>setInvalidGuess(false),1000);
+      timeOut = setTimeout(()=> setIsMessageBoxVisible (false),1000);
     }
     return () => clearTimeout(id);
   }, [showsInvalidGuess]);
   useEffect(()=>{
+    
     if (guess.length === 0 && previousGuess?.length ===LETTER_LENGTH){
       if(isValidWord(previousGuess)){
       addGuess(previousGuess);
@@ -30,9 +36,17 @@ export default function App() {
 
     } else{
       setInvalidGuess(true);
+      setInvalidGuessMessage('Invalid word. Please try again.');
       setGuess(previousGuess);
+      setIsMessageBoxVisible(true);
+
+      
+
+      
     }
   }
+    
+    
   },[guess]);
 
   let rows = [...state.rows];
@@ -68,9 +82,17 @@ export default function App() {
         ))}
         </main>
 
+        
+
         <Keyboard onClick = {letter => {
           addGuessLetter(letter);
         }}/>
+
+        {isMessageBoxVisible && invalidGuessMessage && (
+          <div role="modal" className='absolute bg-white rounded border border-gray-500 text-center left-0 right-0 top-1/4 p-6 w-3/4 mx-auto rounded border-gray-500 text-center'>
+            {invalidGuessMessage}
+          </div>
+        )}
 
         {isGameOver && (
           <div role = "modal" className='absolute bg-white rounded border border-gray-500 text-center left-0 right-0 top-1/4 p-6w-3/4 mx-auto rounded border-gray-500 text-center'>
