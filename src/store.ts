@@ -17,6 +17,7 @@ interface StoreState{
     keyboardLetterState: { [letter: string]: LetterState};
 }
 
+// persist is a middleware that allows us to maintain the state of the game even after the page is refreshed
 export const useStore = create <StoreState>()(
     persist(
       (set,get) => {

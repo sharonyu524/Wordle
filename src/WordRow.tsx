@@ -18,6 +18,7 @@ export default function WordRow({word='', result=[],className = ''}:WordRowProps
     return(
         // using grid so that the boxes are aligned horizontally and vertically 
         <div className={`grid grid-cols-5 gap-4 ${className}`}>
+          {/* for each letter in the letters array, it generates a character box that takes in props: key, value and state */}
             {letters.map((char,index) => (
                 <CharacterBox key={index} value = {char} state={result[index]}/>
             ))}
@@ -25,6 +26,7 @@ export default function WordRow({word='', result=[],className = ''}:WordRowProps
     );
 }
 
+// passed as props to the function below 
 interface CharacterBoxProps{
     value?: string;
     state?: LetterState;
